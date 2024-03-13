@@ -50,7 +50,15 @@ void insertionSort(int* pData, int n)
 // extraMemoryAllocated counts bytes of extra memory allocated
 void bubbleSort(int* pData, int n)
 {
-	
+    for ( int step = 0; step < n -1; step++) {
+        for (int i = 0; i < n - step - 1; i++) {
+            if (pData[i] > pData[i + 1]) {
+                int temp = pData[i];
+                pData[i] = pData[i + 1];
+                pData[i + 1] = temp;          
+        	}
+    	}
+	}
 }
 
 // implement selection sort

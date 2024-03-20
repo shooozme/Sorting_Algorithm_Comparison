@@ -28,22 +28,81 @@ size_t Size(void* ptr)
 
 // implements heap sort
 // extraMemoryAllocated counts bytes of memory allocated
-void heapSort(int arr[], int n)
-{
+void heapSort(int arr[], int n, int i) {
+    
 }
+ 
+// Main function to do heap sort
+void heapSort(int arr[], int N)
+{
+ 
+    // Build max heap
+    for (int i = N / 2 - 1; i >= 0; i--)
+ 
+        heapify(arr, N, i);
+ 
+    // Heap sort
+    for (int i = N - 1; i >= 0; i--) {
+ 
+        swap(&arr[0], &arr[i]);
+ 
+        // Heapify root element
+        // to get highest element at
+        // root again
+        heapify(arr, i, 0);
+    }
+}
+
 
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
-void mergeSort(int pData[], int l, int r)
-{
-	
+void merge(int values[], int leftIndex, int middleIndex, int rightIndex) {
+
+	int *temp, i, length, counter1, counter2, auxIndex;
+  
+    length = rightIndex - leftIndex + 1;
+    temp = (int*)Alloc(length * sizeof(int));
+
+    counter1 = leftIndex;
+    counter2 = middleIndex;
+    auxIndex = 0;
+
+    while ((counter1 < middleIndex) || (counter2 <= rightIndex)) {
+		if (counter2 > rightIndex || (counter1 < middleIndex && values[counter1] < values[counter2])) {
+            temp[auxIndex] = values[counter1];
+            counter1++;
+            auxIndex++;
+        }
+    	else {
+            temp[auxIndex] = values[counter2];
+            counter2++;
+            auxIndex++;
+        }
+    }
+
+    for (i=leftIndex; i<=rightIndex; i++) {
+		values[i] = temp[i - leftIndex];
+	}
+
+	DeAlloc(temp);
+}
+
+void mergeSort(int pData[], int leftIndex, int rightIndex) {
+	int midIndex;
+
+    if (leftIndex < rightIndex) {
+        midIndex = (leftIndex + rightIndex) / 2;
+    
+        mergeSort(pData, leftIndex, midIndex);
+        mergeSort(pData, midIndex + 1, rightIndex);
+        merge(pData, leftIndex, midIndex + 1, rightIndex);
+    }
 }
 
 // implement insertion sort
 // extraMemoryAllocated counts bytes of memory allocated
-void insertionSort(int* pData, int n)
-{
-	
+void insertionSort(int* pData, int n) {
+
 }
 
 // implement bubble sort
@@ -63,11 +122,23 @@ void bubbleSort(int* pData, int n)
 
 // implement selection sort
 // extraMemoryAllocated counts bytes of extra memory allocated
-void selectionSort(int* pData, int n)
-{
-	
+void swap (int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
+void selectionSort(int* pData, int size) {
+    for (int step = 0; step < size - 1; step++) {
+        int min_index = step;
+        for (int i = step +1; i < size; i++) {
+            if (pData[i] < pData[min_index]){
+                min_index = i;
+            }
+        }
+        swap(&pData[min_index], &pData[step]);
+	}
+}
 // parses input file to an integer array
 int parseData(char *inputFileName, int **ppData)
 {

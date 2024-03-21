@@ -28,29 +28,7 @@ size_t Size(void* ptr)
 
 // implements heap sort
 // extraMemoryAllocated counts bytes of memory allocated
-void heapSort(int arr[], int n, int i) {
-    
-}
- 
-// Main function to do heap sort
-void heapSort(int arr[], int N)
-{
- 
-    // Build max heap
-    for (int i = N / 2 - 1; i >= 0; i--)
- 
-        heapify(arr, N, i);
- 
-    // Heap sort
-    for (int i = N - 1; i >= 0; i--) {
- 
-        swap(&arr[0], &arr[i]);
- 
-        // Heapify root element
-        // to get highest element at
-        // root again
-        heapify(arr, i, 0);
-    }
+void heapsort(int arr[], int n, int i) {
 }
 
 
@@ -102,7 +80,18 @@ void mergeSort(int pData[], int leftIndex, int rightIndex) {
 // implement insertion sort
 // extraMemoryAllocated counts bytes of memory allocated
 void insertionSort(int* pData, int n) {
-
+	int i, item, j;
+	for (i = 1; i < n; i++) {
+		item = pData[i];
+		for(j=i-1; j>=0; j--) {
+			if(pData[j]>item) {
+				pData[j+1] = pData[j];
+			} else {
+				break;
+			}
+		}
+		pData[j+1] = item;
+	}
 }
 
 // implement bubble sort
@@ -151,6 +140,20 @@ int parseData(char *inputFileName, int **ppData)
 		fscanf(inFile,"%d\n",&dataSz);
 		*ppData = (int *)Alloc(sizeof(int) * dataSz);
 		// Implement parse data block
+		int i, n, *data;
+		if (*ppData == NULL)
+		{
+			printf("Cannot allocate memory\n");
+			exit(-1);
+		}
+		for (i=0;i<dataSz;++i)
+		{
+			fscanf(inFile, "%d ",&n);
+			data = *ppData + i;
+			*data = n;
+		}
+
+		fclose(inFile);
 	}
 	
 	return dataSz;
@@ -243,7 +246,7 @@ int main(void)
 		memcpy(pDataCopy, pDataSrc, dataSz*sizeof(int));
 		extraMemoryAllocated = 0;
 		start = clock();
-		heapSort(pDataCopy, 0, dataSz - 1);
+		//heapSort(pDataCopy, 0, dataSz - 1);
 		end = clock();
 		cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 		printf("\truntime\t\t\t: %.1lf\n",cpu_time_used);
